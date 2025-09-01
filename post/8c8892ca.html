@@ -1,0 +1,320 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>博弈论学习笔记 | 博闻善思</title><meta name="author" content="Yukii_P"><meta name="copyright" content="Yukii_P"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="研究个体在特定规则下的最优策略">
+<meta property="og:type" content="article">
+<meta property="og:title" content="博弈论学习笔记">
+<meta property="og:url" content="https://lvren1485.github.io/post/8c8892ca.html">
+<meta property="og:site_name" content="博闻善思">
+<meta property="og:description" content="研究个体在特定规则下的最优策略">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lvren1485.github.io/img/youhei_akira.png">
+<meta property="article:published_time" content="2025-09-01T11:13:37.000Z">
+<meta property="article:modified_time" content="2025-09-01T15:32:04.730Z">
+<meta property="article:author" content="Yukii_P">
+<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="编程">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="博弈论">
+<meta property="article:tag" content="SG定理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lvren1485.github.io/img/youhei_akira.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "博弈论学习笔记",
+  "url": "https://lvren1485.github.io/post/8c8892ca.html",
+  "image": "https://lvren1485.github.io/img/youhei_akira.png",
+  "datePublished": "2025-09-01T11:13:37.000Z",
+  "dateModified": "2025-09-01T15:32:04.730Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Yukii_P",
+      "url": "https://lvren1485.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://lvren1485.github.io/post/8c8892ca.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="c_w1K7PwJStqxdANtPBlqJyTThyjmWWM22ibXrlFrLc"/><meta name="msvalidate.01" content="6EBF22CC85A6CE83964897CA59A58D42"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":true},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '博弈论学习笔记',
+  isHighlightShrink: true,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-color: #e3e4e5;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/youhei_akira.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">博闻善思</span></a><a class="nav-page-title" href="/"><span class="site-name">博弈论学习笔记</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">博弈论学习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-09-01T11:13:37.000Z" title="发表于 2025-09-01 19:13:37">2025-09-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-09-01T15:32:04.730Z" title="更新于 2025-09-01 23:32:04">2025-09-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%BC%96%E7%A8%8B/">编程</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/%E7%BC%96%E7%A8%8B/%E7%AE%97%E6%B3%95/">算法</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">总字数:</span><span class="word-count">4.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>好甜 好甜 好甜🥰这个世界需要更多的纯爱🥰</p>
+<p>感觉够重量级了于是兑现一下之前的承诺</p>
+<p>没看出封面和内容的关联.jpg</p>
+<hr>
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="博弈论简介"><a href="#博弈论简介" class="headerlink" title="博弈论简介"></a>博弈论简介</h2><p>博弈论是经济学的一个分支，主要研究多个个体在特定规则下的最优策略。</p>
+<p>出于实用性考虑，本文仅讨论算法竞赛中最常见的博弈类型——组合博弈（Combinatorial Game, CG）。其中，又以公平组合博弈（Impartial Combinatorial Games, ICG）最为常见。</p>
+<h2 id="公平组合博弈"><a href="#公平组合博弈" class="headerlink" title="公平组合博弈"></a>公平组合博弈</h2><p>满足以下条件的博弈是公平组合博弈：</p>
+<ol>
+<li><p>有两名玩家，且交替行动。</p>
+</li>
+<li><p>在游戏的任意状态中，能够继续执行的行动只取决于当前的局面，与之前的操作、轮到哪名玩家无关。</p>
+<div class="note info modern"><p>绝大多数棋类中，每名玩家只能操作本方棋子，因而不属于ICG。</p>
+</div>
+</li>
+<li><p>游戏以玩家无法行动结束，且一定会在有限步数内分出胜负。</p>
+</li>
+</ol>
+<p>在公平组合博弈中，默认玩家都是<strong>绝对理性人</strong>，也能够预料到博弈中发生的<strong>所有局面</strong>，又因为游戏会在有限步内结束，因此游戏中的每一个局面的最终结果是确定的，只有必胜和必败两种情况。</p>
+<h2 id="必胜态与必败态"><a href="#必胜态与必败态" class="headerlink" title="必胜态与必败态"></a>必胜态与必败态</h2><p><strong>必败态（P-Position）</strong>：该局面的后续所有可以经过一次操作到达的局面均处于必胜态。</p>
+<p><strong>必胜态（N-Position）</strong>：该局面的后续所有可以经过一次操作到达的局面至少有一个处于必败态。</p>
+<p>特别的，我们定义最终无法行动的局面为必败态。</p>
+<p>这就给了我们一种使处于必胜态的玩家取得胜利的明确策略：必胜态后续必有一个必败态，处于必胜态的玩家A将局面操作至必败态，同时将移动权交给玩家B，玩家B处于必败态，其后续所有状态均为必胜态，无论怎么操作，移动权交还到玩家A时局面必为必胜态，再继续操作，局面循环必胜态与必败态交替的过程。同时因为游戏一定会在有限步数内结束，故必定会到达无法行动的局面，此时移动权必定在玩家B，因此A必然取得胜利。</p>
+<h1 id="经典ICG实例"><a href="#经典ICG实例" class="headerlink" title="经典ICG实例"></a>经典ICG实例</h1><h2 id="巴什博弈（Bash-Game）"><a href="#巴什博弈（Bash-Game）" class="headerlink" title="巴什博弈（Bash Game）"></a>巴什博弈（Bash Game）</h2><div class="note default modern"><p>一共有n颗石子，两个人轮流拿，每次可以拿1~m颗石子，拿到最后一颗石子的人获胜。</p>
+</div>
+
+<p>结论：当 $n\equiv 0 \pmod{m+1}$ 时后手必胜，否则先手必胜。</p>
+<p>具体策略是，如果 $n\equiv r \ne0 \pmod{m+1}$ ，那么先手取 $r$ 个石子，剩下 $m+1$ 倍数个石子。此时不管后手怎么取，先手都可以将其恢复成 $m+1$ 的倍数，直至变为 $0$ 。如果 $n\equiv 0 \pmod{m+1}$ ，则反过来分析，后手必胜。</p>
+<p>按照上面的必胜态和必败态来分析，即石子数为 $m+1$ 的倍数时为必败态，非倍数为必胜态。获胜策略就是使得局面在必胜态和必败态之间来回交替变换直到达到最终局面。</p>
+<h2 id="尼姆博弈（Nim-Game）"><a href="#尼姆博弈（Nim-Game）" class="headerlink" title="尼姆博弈（Nim Game）"></a>尼姆博弈（Nim Game）</h2><div class="note danger modern"><p>非常重要！是后续SG定理的基础！</p>
+</div>
+
+<div class="note default modern"><p>一共有n堆石头，两人轮流进行游戏，在每个玩家的回合中，选择任何一个非空的石头堆，并从这堆石头中移除任意正数的石头数量，拿到最后一颗石子的人获胜。</p>
+</div>
+
+<p>结论：当每堆石头数量的异或和为 $0$ 时后手必胜，否则先手必胜。</p>
+<p>具体策略是，如果异或和不为 $0$，那么先手在某一堆中拿掉一些石子使得异或和为 $0$。此时不管后手怎么取，先手都可以将其异或和恢复成 $0$，直至先手取到最后一颗石子。反之后手必胜。</p>
+<p>我们需要证明两件事：</p>
+<p>第一，异或和不为 $0$ 时，先手必然存在一个方案使得拿掉某堆的一些石子后可将异或和变为 $0$。</p>
+<p>第二，异或和为 $0$ 时，怎么取石子都会使得异或和不为 $0$ 。</p>
+<p>第二点好证，先进行证明。我们把所有数拆成二进制，按照每一位去考虑。异或和为 $0$ ，说明所有位上的 $1$ 的数量都是偶数。如果从某一堆石子中取若干石子，必然会导致这个数某一位上的 $1$ 消失，从而使得这一位的 $1$ 的数量变成奇数，从而异或和非 $0$ 。</p>
+<p>再证明第一点。还是按照每一位考虑，异或和非 $0$ ，代表至少有一位上是 $1$ ，所有数中这一位上 $1$ 的数量为奇数。我们从异或和的最高有效位上是 $1$ 的某个数中去取，设异或和是 $sum$ ，这个数是 $a$ ，则我们将其变成 $a \oplus sum$ ，即取 $a - a \oplus sum$ 个石子。容易发现 $a \ge a \oplus sum$ ，则可以保证这样操作必定合法，所有数异或和必定可变为 $0$ 。</p>
+<p>证明完毕，按照上述策略拿取石子即可。</p>
+<h2 id="斐波那契博弈（Fibonacii-Game）"><a href="#斐波那契博弈（Fibonacii-Game）" class="headerlink" title="斐波那契博弈（Fibonacii Game）"></a>斐波那契博弈（Fibonacii Game）</h2><div class="note default modern"><p>有一堆个数为n(n&gt;&#x3D;2)的石子，游戏双方轮流取石子，规则如下：</p>
+<ol>
+<li><p>先手不能在第一次把所有的石子取完，至少取1颗；</p>
+</li>
+<li><p>之后每次可以取的石子数至少为1，至多为对手刚取的石子数的2倍。</p>
+</li>
+</ol>
+<p>取走最后一个石子的人获胜。</p>
+</div>
+
+<p>结论：n为斐波那契数时先手必败，反之先手必胜。</p>
+<p>证明：</p>
+<p>先证明n为斐波那契数时先手必败。通过数学归纳法：n&#x3D;2，n&#x3D;3时显然结论成立。假设对于前k项斐波那契数都成立。那么对于第 $k+1$ 项，$f[k+1]&#x3D;f[k]+f[k-1]$，将石子拆成两堆。由于斐波那契数相邻项的比值接近黄金分割率，从第二项开始，$f[k]\lt 2f[k-1]$ 。如果先手取的石子数大于等于 $f[k-1]$ ，则后手可以全部取完。否则先手取的石子数小于 $f[k-1]$ ，我们再对 $f[k-1]$ 做拆分，递归下去，把每次拆分前的状态当做一个子问题，必然存在一个时刻，先手取的石子数量大于等于某个子问题的对应的值，此时后手简单的把这个子问题取光即可。由于斐波那契隔项的比值大于 $2$ ，则后手取后先手无法取完当前子问题同级的另一个子问题，则又按照同样的逻辑递归下去，每次的结果都是后手把子问题的石子全部取光，从整体上看就是后手一定能取走最后一个石子。</p>
+<p>再证明n不为斐波那契数时先手必胜。需要使用<strong>齐肯多夫定理（Zeckendorf定理）</strong>：<strong>任何正整数可以表示为若干个不连续的Fibonacci数之和。</strong> 因此将n分解后，先手只需要简单地取走最小的那项数，留给后手的就是和上面类似的取若干斐波那契数的子问题（无法一次取完，至少取一颗），则后手必败，先手必胜。</p>
+<h3 id="例题-P6487-COCI-2010-2011-4-HRPA"><a href="#例题-P6487-COCI-2010-2011-4-HRPA" class="headerlink" title="例题 P6487 [COCI 2010&#x2F;2011 #4] HRPA"></a>例题 <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P6487">P6487 [COCI 2010&#x2F;2011 #4] HRPA</a></h3><p>斐波那契博弈模板题。黑题重拳出击。</p>
+<p>当然没学过这个从零推这个确实扯淡。所以才需要后面的SG定理。</p>
+<h2 id="威佐夫博弈（Wythoff-Game）"><a href="#威佐夫博弈（Wythoff-Game）" class="headerlink" title="威佐夫博弈（Wythoff Game）"></a>威佐夫博弈（Wythoff Game）</h2><div class="note default modern"><p>有两堆石子，两个人轮流取，每次可以从任意一堆中取任意数量的石子，也可以从两堆中取走相同数量的石子，拿到最后一颗石子的人获胜。</p>
+</div>
+
+<p>结论：设两堆石子数量为 $a$ 和 $b$ （$a\le b$），当 $a &#x3D; \left\lfloor \frac{(\sqrt{5}+1)}{2}(b-a) \right\rfloor$后手必胜，否则先手必胜。</p>
+<p>不会证，用SG定理打表观察可知。（</p>
+<h3 id="例题-P2252-SHOI2002-取石子游戏-【模板】威佐夫博弈"><a href="#例题-P2252-SHOI2002-取石子游戏-【模板】威佐夫博弈" class="headerlink" title="例题 P2252 [SHOI2002] 取石子游戏 |【模板】威佐夫博弈"></a>例题 <a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2252">P2252 [SHOI2002] 取石子游戏 |【模板】威佐夫博弈</a></h3><h1 id="SG函数与SG定理"><a href="#SG函数与SG定理" class="headerlink" title="SG函数与SG定理"></a>SG函数与SG定理</h1><h2 id="有向图游戏与SG函数"><a href="#有向图游戏与SG函数" class="headerlink" title="有向图游戏与SG函数"></a>有向图游戏与SG函数</h2><p>我们可以把任意的ICG都抽象成一个有向图，ICG中每一个状态一一对应有向图的一个节点，每个节点向操作一步可到达的所有节点连边，最终无法行动的点没有后续节点。</p>
+<p>ICG必定会在有限步内结束，显然这个有向图是无环的。</p>
+<p>我们引出<strong>SG函数（Sprague-Grundy函数）</strong>：</p>
+<p>定义最终无法行动的点的 $SG$ 值为 $0$ 。</p>
+<p>一般地，对于一个状态点N，其 $SG$ 值定义为其所有后续节点的 $SG$ 值的最小排除数（$MEX$）。</p>
+<div class="note info modern"><p>如果 $SG(N)&#x3D;0$ ，则该点处于必败态；如果 $SG(N)\ne 0$ ，则该点处于必胜态。</p>
+</div>
+
+<p>我们结合必胜态必败态的定义和 $MEX$ 的运算规则来分析这个结论：</p>
+<p>必胜态后续必然存在一个必败态，所以其后续节点的 $SG$ 值集合中必然包含 $0$ ，那么这个节点的 $MEX$ 必然不为 $0$ ；</p>
+<p>必败态后续均为必胜态，其后续节点的 $SG$ 值集合中必然不包含 $0$ ，那么这个节点的 $MEX$ 必然为 $0$ 。</p>
+<p>这不是循环论证，我们从无法行动的点的 $SG$ 值反推即可得到这个结论。</p>
+<p>必胜态必败态恰好和 $MEX$ 运算结合了起来，实在是妙！</p>
+<h2 id="SG定理"><a href="#SG定理" class="headerlink" title="SG定理"></a>SG定理</h2><p>上面的结论只需要判断 $SG$ 值是否为 $0$ 即可，而具体的值用于 $SG$ 定理。</p>
+<p><strong>SG定理（Bouton定理）</strong>：如果一个ICG可以拆分成若干独立的子ICG，那么 $SG(总)&#x3D;SG(分1)\oplus SG(分2)\oplus \cdots \oplus SG(分n)$ 。</p>
+<p> $SG$ 定理适用于<strong>任何</strong>ICG，我们可以使用类似尼姆博弈的方式来证明这个定理。</p>
+<p>如果先手状态下 $SG(总) \ne 0$ ，那么必然可以操作其中一个子ICG，使得所有子ICG的异或和变成 $0$ 。反证法可以证明，如果一个节点的 $SG$ 值为 $x$ ，那么其后续节点的 $SG$ 值必然包含 $0$ 到 $x-1$ 的所有值，即可以通过一步操作把这个子ICG的 $SG$ 值变为 $0$ 到 $x-1$ 中任意一个数，可以发现这和尼姆博弈非常类似。那么只需要按照尼姆博弈的方式控制所有子ICG的 $SG$ 值即可。</p>
+<div class="note info modern"><p>有向图游戏和尼姆游戏的区别在于有向图游戏的每个节点的后续节点的 $SG$ 值有可能大于该节点的 $SG$ 值。但我们不向这些节点操作，即可把有向图游戏规约到尼姆游戏。</p>
+</div>
+
+<p>也就是说，我们有了 $SG$ 定理，对于任意的ICG，我们都可以通过暴力打表的方式来观察规律，视情况寻找 $O(1)$ 做法或直接暴力解决。</p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="P2148-SDOI2009-E-D"><a href="#P2148-SDOI2009-E-D" class="headerlink" title="P2148 [SDOI2009] E&amp;D"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2148">P2148 [SDOI2009] E&amp;D</a></h3><p>本关考验你打表功夫。模型很好提取，把SG表打出来找规律。</p>
+<p><img src="https://s2.loli.net/2025/09/01/DxUAzlO64GnygI2.png" alt="P2148"></p>
+<p>很美的分形使我原地旋转。其实到这一步可以递归 $O(\log{V})$ 来算答案了。</p>
+<p>$O(1)$ 公式直接给出：$SG(x,y)&#x3D;f((x-1)|(y-1))$ ，其中 $f(x)$ 是 $x$ 二进制表示下低位连续 $1$ 的个数。</p>
+<p>怎么观察？多练吧。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FIO cin.tie(0); ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> all(x) (x).begin(), (x).end()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fi first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> se second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> TEST</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> TESTS int t = 1; cin &gt;&gt; t; while (t--)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> 0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int i64</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> inf 0x3f3f3f3f3f3f3f3fLL</span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> inf 0x3f3f3f3f</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> i64 = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> u32 = <span class="type">unsigned</span>;</span><br><span class="line"><span class="keyword">using</span> u64 = <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> pii = std::pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> N = <span class="number">2e2</span> + <span class="number">10</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> MOD = <span class="number">998244353</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> sg[N][N];</span><br><span class="line"><span class="type">int</span> c[N * N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">SG</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (a == <span class="number">1</span> &amp;&amp; b == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (sg[a][b] != <span class="number">-1</span>) <span class="keyword">return</span> sg[a][b];</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">c</span><span class="params">(N * N)</span></span>;</span><br><span class="line">    <span class="keyword">if</span> (a &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; a; ++i) c[<span class="built_in">SG</span>(i, a - i)] = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (b &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; b; ++i) c[<span class="built_in">SG</span>(i, b - i)] = <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; N * N; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!c[i]) &#123;</span><br><span class="line">            <span class="keyword">return</span> sg[a][b] = sg[b][a] = i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">calc</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> sg = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">// while (x % 2 != 1 || y % 2 != 1) &#123;</span></span><br><span class="line">    <span class="comment">//     sg++; </span></span><br><span class="line">    <span class="comment">//     if (x % 2 == 1) x++;</span></span><br><span class="line">    <span class="comment">//     if (y % 2 == 1) y++;</span></span><br><span class="line">    <span class="comment">//     x /= 2;</span></span><br><span class="line">    <span class="comment">//     y /= 2;</span></span><br><span class="line">    <span class="comment">// &#125;</span></span><br><span class="line">    sg = __builtin_ctz(~((x - <span class="number">1</span>) | (y - <span class="number">1</span>)));</span><br><span class="line">    <span class="keyword">return</span> sg;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">bf</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(sg, <span class="number">-1</span>, <span class="built_in">sizeof</span>(sg));</span><br><span class="line">    sg[<span class="number">1</span>][<span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> step = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = step; i &lt;= <span class="number">64</span>; i += step) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = step; j &lt;= <span class="number">64</span>; j += step) &#123;</span><br><span class="line">            cout &lt;&lt; (<span class="built_in">SG</span>(i, j)) &lt;&lt; <span class="string">&quot; \n&quot;</span>[j == <span class="number">64</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;==========================\n&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = step; i &lt;= <span class="number">64</span>; i += step) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = step; j &lt;= <span class="number">64</span>; j += step) &#123;</span><br><span class="line">            cout &lt;&lt; <span class="built_in">calc</span>(i, j) &lt;&lt; <span class="string">&quot; \n&quot;</span>[j == <span class="number">64</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> m, n;</span><br><span class="line">    cin &gt;&gt; m;</span><br><span class="line">    n = m / <span class="number">2</span>;</span><br><span class="line">    <span class="type">int</span> xorsum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">        <span class="type">int</span> x, y;</span><br><span class="line">        cin &gt;&gt; x &gt;&gt; y;</span><br><span class="line">        xorsum ^= __builtin_ctz(~((x - <span class="number">1</span>) | (y - <span class="number">1</span>)));</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; (xorsum ? <span class="string">&quot;YES&quot;</span> : <span class="string">&quot;NO&quot;</span>) &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    FIO;</span><br><span class="line">    <span class="comment">// bf();</span></span><br><span class="line">    TESTS &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="P3185-HNOI2007-分裂游戏"><a href="#P3185-HNOI2007-分裂游戏" class="headerlink" title="P3185 [HNOI2007] 分裂游戏"></a><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3185">P3185 [HNOI2007] 分裂游戏</a></h3><p>重点在于怎么提取模型。需要把豆子看成独立游戏，而不是瓶子。豆子的一个后继状态对于两个豆子的子问题，对于这两个子问题，其 $SG$ 值异或起来才是完整的后继状态的 $SG$ 值。数据范围很小，打表即可。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;bits/stdc++.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FIO cin.tie(0); ios::sync_with_stdio(false)</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> all(x) (x).begin(), (x).end()</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> fi first</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> se second</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> TEST</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> TESTS int t = 1; cin &gt;&gt; t; while (t--)</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> 0</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> int i64</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> inf 0x3f3f3f3f3f3f3f3fLL</span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> inf 0x3f3f3f3f</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">using</span> i64 = <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> u32 = <span class="type">unsigned</span>;</span><br><span class="line"><span class="keyword">using</span> u64 = <span class="type">unsigned</span> <span class="type">long</span> <span class="type">long</span>;</span><br><span class="line"><span class="keyword">using</span> pii = std::pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> N = <span class="number">21</span>;</span><br><span class="line"><span class="keyword">constexpr</span> <span class="type">int</span> MOD = <span class="number">998244353</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> sg[N], p[N];</span><br><span class="line"><span class="type">bool</span> c[N * N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt; N; ++i) &#123;</span><br><span class="line">        <span class="built_in">memset</span>(c, <span class="number">0</span>, <span class="built_in">sizeof</span>(c));</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = i - <span class="number">1</span>; j &gt;= <span class="number">0</span>; --j) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> k = j; k &gt;= <span class="number">0</span>; --k) &#123;        </span><br><span class="line">                c[sg[j] ^ sg[k]] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; N * N; ++j) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!c[j]) &#123;</span><br><span class="line">                sg[i] = j;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">solve</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    cin &gt;&gt; n;</span><br><span class="line">    <span class="type">int</span> xorsum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">        cin &gt;&gt; p[i];</span><br><span class="line">        <span class="keyword">if</span> (p[i] &amp; <span class="number">1</span>) xorsum ^= sg[n - <span class="number">1</span> - i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!xorsum) &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;-1 -1 -1\n0\n&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span> cnt = <span class="number">0</span>, a = <span class="number">-1</span>, b, c;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!p[i]) <span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> j = i + <span class="number">1</span>; j &lt; n; ++j) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> k = j; k &lt; n; ++k) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!(xorsum ^ sg[n - <span class="number">1</span> - i] ^ sg[n - <span class="number">1</span> - j] ^ sg[n - <span class="number">1</span> - k])) &#123;</span><br><span class="line">                    cnt++;</span><br><span class="line">                    <span class="keyword">if</span> (a == <span class="number">-1</span>) &#123;</span><br><span class="line">                        a = i;</span><br><span class="line">                        b = j;</span><br><span class="line">                        c = k;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    cout &lt;&lt; a &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; b &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; c &lt;&lt; <span class="string">&quot;\n&quot;</span> &lt;&lt; cnt &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">signed</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    FIO;</span><br><span class="line">    <span class="built_in">init</span>();</span><br><span class="line">    TESTS &#123;</span><br><span class="line">        <span class="built_in">solve</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Anti-SG游戏与SJ定理"><a href="#Anti-SG游戏与SJ定理" class="headerlink" title="Anti-SG游戏与SJ定理"></a>Anti-SG游戏与SJ定理</h1><p>以上，我们研究的都是<strong>正常游戏</strong>，即游戏胜利者是博弈结束前最后一次参与行动的玩家。与之相对的是<strong>反常游戏</strong>，即游戏结束前最后一次参与的玩家是失败者。</p>
+<p>下面介绍<strong>反尼姆博弈（Anti-Nim Game）</strong>：</p>
+<div class="note default modern"><p>一共有n堆石头，两人轮流进行游戏，玩家每个回合选择一个非空的石头堆，并从中移除任意正数的石头，拿到最后一颗石子的人失败。</p>
+</div>
+
+<p>结论：若每堆石头数量均为 $1$ ，则总石头数为偶数时先手必胜，为奇数时后手必胜；否则必然存在一堆石头数量大于 $1$ ，此时先手必胜。</p>
+<p>证明：每堆石头数量均为 $1$ 的情况显然。我们考虑只有一堆石头数量大于 $1$ ，其余均为 $1$ 的情况。设这堆石头数量为 $x$ ，可以发现先手可以视情况而定拿取 $x$ 或 $x-1$ 颗石头，来控制数量为 $1$ 的石头堆数量的奇偶，所以该情况下先手必胜。容易证明此时每堆石头数量的异或和不为 $0$ 。那么如果存在多个数量大于 $1$ 的石头堆，先手可以控制石头数量，从某堆石头中拿取一些石头使得石头数量的异或和变为 $0$ 。后续证明和正常尼姆博弈类似，后手永远面临石头异或和为 $0$ 的情况，永远不可能面临存在一堆石头数量大于 $1$ 情况下的基础必胜局面，而随着游戏不断进行，先手必然可以遇到只有一堆石头数量大于 $1$ ，其余均为 $1$ 的情况，所以先手必胜。</p>
+<h2 id="Anti-SG游戏"><a href="#Anti-SG游戏" class="headerlink" title="Anti-SG游戏"></a>Anti-SG游戏</h2><p>推广得到Anti-SG游戏的定义：</p>
+<p>规定决策集合为空的游戏者获胜。</p>
+<p>其余规则与SG游戏相同。</p>
+<h2 id="SJ定理"><a href="#SJ定理" class="headerlink" title="SJ定理"></a>SJ定理</h2><p>和SG定理类似，将Anti-SG游戏拆分成若干独立的子游戏，规定当所有子游戏的 $SG$ 值为 $0$ 时游戏结束。</p>
+<p>先手必胜当且仅当：</p>
+<ul>
+<li>总游戏的 $SG$ 值为 $0$ 且所有子游戏的 $SG$ 值小于等于 $1$</li>
+<li>总游戏的 $SG$ 值不为 $0$ 且存在某个子游戏的 $SG$ 值大于 $1$</li>
+</ul>
+<p>可以看到这恰好对应了反尼姆博弈的两种情况，对比记忆即可。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://lvren1485.github.io">Yukii_P</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lvren1485.github.io/post/8c8892ca.html">https://lvren1485.github.io/post/8c8892ca.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://lvren1485.github.io" target="_blank">博闻善思</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a><a class="post-meta__tags" href="/tags/%E7%BC%96%E7%A8%8B/">编程</a><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E5%8D%9A%E5%BC%88%E8%AE%BA/">博弈论</a><a class="post-meta__tags" href="/tags/SG%E5%AE%9A%E7%90%86/">SG定理</a></div><div class="post-share"><div class="social-share" data-image="/img/youhei_akira.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/post/6e923520.html" title="二项式反演学习笔记"><img class="cover" src="/img/azuma.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">二项式反演学习笔记</div></div><div class="info-2"><div class="info-item-1">将“至少/至多”转为“恰好”的数学工具</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/post/6e923520.html" title="二项式反演学习笔记"><img class="cover" src="/img/azuma.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-30</div><div class="info-item-2">二项式反演学习笔记</div></div><div class="info-2"><div class="info-item-1">将“至少/至多”转为“恰好”的数学工具</div></div></div></a><a class="pagination-related" href="/post/de583cee.html" title="小众优化trick合订本"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-22</div><div class="info-item-2">小众优化trick合订本</div></div><div class="info-2"><div class="info-item-1">小众冷门优化技巧合集</div></div></div></a><a class="pagination-related" href="/post/9bb17607.html" title="整体二分学习笔记"><img class="cover" src="/img/aro.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-16</div><div class="info-item-2">整体二分学习笔记</div></div><div class="info-2"><div class="info-item-1">批量处理大量询问的小清新分治</div></div></div></a><a class="pagination-related" href="/post/bbfdbc9f.html" title="浅谈李超线段树"><img class="cover" src="/img/urushi.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-07-18</div><div class="info-item-2">浅谈李超线段树</div></div><div class="info-2"><div class="info-item-1">久违的新算法，所以请出世界无敌第一可爱的狈音镇楼。 几个月前其实已经听过这个东西了，当时觉得没啥用，而且乍一看有点被唬住了，于是没有学，然后就在几个月后牛客多校的子弹正中眉心。赶紧来补课了。  简单来讲，李超线段树可以动态的维护若干一次函数f(x)&#x3D;y&#x3D;kx+b的最值。 与普通的线段树不同，每个节点并不能简单的直接记录一个最值，再去合并，因为随着x的变化，对应的f(x)也会变化。所以我们转而考虑在每个节点存储该节点对应的定义域里能够取到最值的那个函数的参数k和b。由于我们维护的信息并不具有比较平凡的结合律，因此我们更新信息（插入新线段）的时候需要大力分类讨论。这里以最大值为例进行分析：  若当前区间没有线段，则直接把新线段放入当前区间。 若当前区间[L,R]有旧线段，且新线段的斜率大于旧线段的斜率，设当前区间中点为mid： 若旧线段在mid的取值大于新线段在mid的取值，则新线段在[L,mid]的取值一定不优，但在[mid+1,R]上的取值可能更优，继续递归更新答案； 若旧线段在mid的取值小于等于新线段在mid的取值，则旧线段在[mid+1,R]的取值一定不...</div></div></div></a><a class="pagination-related" href="/post/4fe75d14.html" title="根号分治学习笔记"><img class="cover" src="/img/urushi3.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-28</div><div class="info-item-2">根号分治学习笔记</div></div><div class="info-2"><div class="info-item-1">分类讨论数据规模，平衡算法复杂度</div></div></div></a><a class="pagination-related" href="/post/ea5b1607.html" title="分块学习笔记"><img class="cover" src="/img/tobari.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-08-10</div><div class="info-item-2">分块学习笔记</div></div><div class="info-2"><div class="info-item-1">“青蛙。”</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Yukii_P</div><div class="author-info-description">终身学习者</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div><a id="card-info-btn" href="https://lvren1485.github.io/about"><i class="fas fa-heart"></i><span>关于作者</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/lvren1485" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="https://space.bilibili.com/386120762" target="_blank" title="Bilibili"><i class="fab fa-bilibili"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">学点想学的，干点想干的，人生大抵不过如此 :)</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%9A%E5%BC%88%E8%AE%BA%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">博弈论简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AC%E5%B9%B3%E7%BB%84%E5%90%88%E5%8D%9A%E5%BC%88"><span class="toc-number">1.2.</span> <span class="toc-text">公平组合博弈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%85%E8%83%9C%E6%80%81%E4%B8%8E%E5%BF%85%E8%B4%A5%E6%80%81"><span class="toc-number">1.3.</span> <span class="toc-text">必胜态与必败态</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8ICG%E5%AE%9E%E4%BE%8B"><span class="toc-number">2.</span> <span class="toc-text">经典ICG实例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%B4%E4%BB%80%E5%8D%9A%E5%BC%88%EF%BC%88Bash-Game%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">巴什博弈（Bash Game）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%BC%E5%A7%86%E5%8D%9A%E5%BC%88%EF%BC%88Nim-Game%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">尼姆博弈（Nim Game）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E5%8D%9A%E5%BC%88%EF%BC%88Fibonacii-Game%EF%BC%89"><span class="toc-number">2.3.</span> <span class="toc-text">斐波那契博弈（Fibonacii Game）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98-P6487-COCI-2010-2011-4-HRPA"><span class="toc-number">2.3.1.</span> <span class="toc-text">例题 P6487 [COCI 2010&#x2F;2011 #4] HRPA</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A8%81%E4%BD%90%E5%A4%AB%E5%8D%9A%E5%BC%88%EF%BC%88Wythoff-Game%EF%BC%89"><span class="toc-number">2.4.</span> <span class="toc-text">威佐夫博弈（Wythoff Game）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98-P2252-SHOI2002-%E5%8F%96%E7%9F%B3%E5%AD%90%E6%B8%B8%E6%88%8F-%E3%80%90%E6%A8%A1%E6%9D%BF%E3%80%91%E5%A8%81%E4%BD%90%E5%A4%AB%E5%8D%9A%E5%BC%88"><span class="toc-number">2.4.1.</span> <span class="toc-text">例题 P2252 [SHOI2002] 取石子游戏 |【模板】威佐夫博弈</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SG%E5%87%BD%E6%95%B0%E4%B8%8ESG%E5%AE%9A%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">SG函数与SG定理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E5%90%91%E5%9B%BE%E6%B8%B8%E6%88%8F%E4%B8%8ESG%E5%87%BD%E6%95%B0"><span class="toc-number">3.1.</span> <span class="toc-text">有向图游戏与SG函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SG%E5%AE%9A%E7%90%86"><span class="toc-number">3.2.</span> <span class="toc-text">SG定理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E9%A2%98"><span class="toc-number">3.3.</span> <span class="toc-text">例题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#P2148-SDOI2009-E-D"><span class="toc-number">3.3.1.</span> <span class="toc-text">P2148 [SDOI2009] E&amp;D</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#P3185-HNOI2007-%E5%88%86%E8%A3%82%E6%B8%B8%E6%88%8F"><span class="toc-number">3.3.2.</span> <span class="toc-text">P3185 [HNOI2007] 分裂游戏</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Anti-SG%E6%B8%B8%E6%88%8F%E4%B8%8ESJ%E5%AE%9A%E7%90%86"><span class="toc-number">4.</span> <span class="toc-text">Anti-SG游戏与SJ定理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Anti-SG%E6%B8%B8%E6%88%8F"><span class="toc-number">4.1.</span> <span class="toc-text">Anti-SG游戏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SJ%E5%AE%9A%E7%90%86"><span class="toc-number">4.2.</span> <span class="toc-text">SJ定理</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/post/8c8892ca.html" title="博弈论学习笔记"><img src="/img/youhei_akira.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="博弈论学习笔记"/></a><div class="content"><a class="title" href="/post/8c8892ca.html" title="博弈论学习笔记">博弈论学习笔记</a><time datetime="2025-09-01T11:13:37.000Z" title="发表于 2025-09-01 19:13:37">2025-09-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/6e923520.html" title="二项式反演学习笔记"><img src="/img/azuma.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="二项式反演学习笔记"/></a><div class="content"><a class="title" href="/post/6e923520.html" title="二项式反演学习笔记">二项式反演学习笔记</a><time datetime="2025-08-29T23:46:05.000Z" title="发表于 2025-08-30 07:46:05">2025-08-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/4fe75d14.html" title="根号分治学习笔记"><img src="/img/urushi3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="根号分治学习笔记"/></a><div class="content"><a class="title" href="/post/4fe75d14.html" title="根号分治学习笔记">根号分治学习笔记</a><time datetime="2025-08-28T13:32:03.000Z" title="发表于 2025-08-28 21:32:03">2025-08-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/3be44324.html" title="莫队学习笔记"><img src="/img/aro_shiba.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="莫队学习笔记"/></a><div class="content"><a class="title" href="/post/3be44324.html" title="莫队学习笔记">莫队学习笔记</a><time datetime="2025-08-23T06:50:30.000Z" title="发表于 2025-08-23 14:50:30">2025-08-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/post/de583cee.html" title="小众优化trick合订本"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="小众优化trick合订本"/></a><div class="content"><a class="title" href="/post/de583cee.html" title="小众优化trick合订本">小众优化trick合订本</a><time datetime="2025-08-22T14:30:24.000Z" title="发表于 2025-08-22 22:30:24">2025-08-22</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2022 - 2025 By Yukii_P</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.0-b1</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
